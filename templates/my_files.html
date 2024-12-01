@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}我的文件{% endblock %}
+{% block content %}
+<h2>我的上传文件</h2>
+<ul>
+    {% for file in files %}
+        <li><a href="{{ url_for('view_file', username=username, filename=file) }}">{{ file }}</a></li>
+    {% endfor %}
+</ul>
+{% endblock %}
