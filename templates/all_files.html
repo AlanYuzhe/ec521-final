@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% block title %}所有文件{% endblock %}
+{% block title %}All files{% endblock %}
 {% block content %}
-<h2>所有用户的上传文件</h2>
+<h2>All users' uploaded files</h2>
 {% for user, files in all_files.items() %}
-    <h3>用户：{{ user }}</h3>
+    <h3>User：{{ user }}</h3>
     <ul>
         {% for file in files %}
             <li><a href="{{ url_for('view_file', username=user, filename=file) }}">{{ file }}</a></li>

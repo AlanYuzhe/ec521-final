@@ -55,14 +55,14 @@ def register():
         role = 'user'  # 默认注册为普通用户
 
         if User.query.filter_by(username=username).first():
-            flash('用户名已存在。')
+            flash('Username already exists!')
             return redirect(url_for('register'))
 
         new_user = User(username=username, role=role)
         new_user.set_password(password)
         db.session.add(new_user)
         db.session.commit()
-        flash('注册成功，请登录。')
+        flash('Registration successful, please log in...')
         return redirect(url_for('login'))
 
     return render_template('register.html')
@@ -77,10 +77,10 @@ def login():
         user = User.query.filter_by(username=username).first()
         if user and user.check_password(password):
             login_user(user)
-            flash('登录成功。')
+            flash('Login successful。')
             return redirect(url_for('upload'))
         else:
-            flash('用户名或密码错误。')
+            flash('Wrong username or password!')
             return redirect(url_for('login'))
 
     return render_template('login.html')
@@ -90,7 +90,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    flash('您已退出登录。')
+    flash('You are logged out！')
     return redirect(url_for('login'))
 
 
@@ -106,7 +106,7 @@ def upload():
         file = request.files['photo']
 
         if file.filename == '':
-            flash('未选择文件。')
+            flash('No file selected!')
             return redirect(request.url)
 
         original_filename = secure_filename(file.filename)
@@ -132,16 +132,16 @@ def upload():
                 if kind:
                     kind_mime = kind.mime
                 else:
-                    flash('无法确定文件类型。')
+                    flash('Unable to determine the file type!')
                     return redirect(request.url)
 
             # 验证 MIME 类型是否允许
             if kind_mime not in ['image/jpeg', 'image/png', 'text/plain']:
-                flash('不允许的文件类型。')
+                flash('Disallowed file types!')
                 return redirect(request.url)
 
         except Exception as e:
-            flash(f'无法确定文件类型：{str(e)}')
+            flash(f'Unable to determine file type：{str(e)}')
             return redirect(request.url)
 
         # 使用 UUID 生成唯一的文件名，防止文件名冲突
@@ -162,9 +162,9 @@ def upload():
             #     flash('上传的文件包含病毒，已被删除。')
             #     return redirect(url_for('upload'))
 
-            flash(f'文件 {original_filename} 上传成功。')
+            flash(f'File {original_filename} uploaded successfully。')
         except Exception as e:
-            flash(f'上传失败：{str(e)}')
+            flash(f'Upload failed：{str(e)}')
 
         return redirect(url_for('upload'))
 
@@ -173,7 +173,7 @@ def upload():
 
 @app.errorhandler(RequestEntityTooLarge)
 def handle_file_too_large(e):
-    flash('上传失败：文件过大。最大允许大小为16MB。')
+    flash('Upload failed: The file is too large. The maximum allowed size is 16MB!')
     return redirect(url_for('upload'))
 
 
@@ -185,9 +185,9 @@ def view_file(username, filename):
         user_folder = os.path.join(app.config['UPLOAD_FOLDER'], username)
         file_path = os.path.join(user_folder, filename)
         if not os.path.isfile(file_path):
-            return "文件未找到。"
+            return "File not found。"
     else:
-        return "无权访问该文件。"
+        return "No permission to access the file!"
 
     # 检测文件类型
     mime_type = filetype.guess_mime(file_path)
@@ -201,7 +201,7 @@ def view_file(username, filename):
             content = f.read()
         return f"<pre>{content}</pre>"
     except Exception as e:
-        return f"无法读取文件：{str(e)}"
+        return f"Unable to read file：{str(e)}"
 
 
 @app.route('/my_files')
@@ -219,7 +219,7 @@ def my_files():
 @login_required
 def all_files():
     if current_user.role != 'admin':
-        flash('无权访问。')
+        flash('No access!')
         return redirect(url_for('upload'))
 
     all_files = {}

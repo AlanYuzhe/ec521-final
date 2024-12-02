@@ -2,21 +2,21 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{% block title %}文件上传系统{% endblock %}</title>
+    <title>{% block title %}File upload system{% endblock %}</title>
 </head>
 <body>
-    <h1>{% block header %}文件上传系统{% endblock %}</h1>
+    <h1>{% block header %}File upload system{% endblock %}</h1>
     <nav>
         {% if current_user.is_authenticated %}
-            <a href="{{ url_for('upload') }}">上传文件</a> |
-            <a href="{{ url_for('my_files') }}">我的文件</a>
+            <a href="{{ url_for('upload') }}">Upload files</a> |
+            <a href="{{ url_for('my_files') }}">My Files</a>
             {% if current_user.role == 'admin' %}
-                | <a href="{{ url_for('all_files') }}">所有文件</a>
+                | <a href="{{ url_for('all_files') }}">All files</a>
             {% endif %}
-            | <a href="{{ url_for('logout') }}">退出</a>
+            | <a href="{{ url_for('logout') }}">Exit</a>
         {% else %}
-            <a href="{{ url_for('login') }}">登录</a> |
-            <a href="{{ url_for('register') }}">注册</a>
+            <a href="{{ url_for('login') }}">Login</a> |
+            <a href="{{ url_for('register') }}">Register</a>
         {% endif %}
     </nav>
     <hr>
