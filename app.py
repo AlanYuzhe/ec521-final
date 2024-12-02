@@ -1,12 +1,10 @@
-# App.py
 import os
 import filetype
 from flask import Flask, request, redirect, url_for, flash, render_template
-from flask import session, g
+
 from flask import send_file
 from werkzeug.exceptions import RequestEntityTooLarge
 from werkzeug.utils import secure_filename
-from flask_sqlalchemy import SQLAlchemy
 from flask_login import (
     LoginManager,
     login_user,
