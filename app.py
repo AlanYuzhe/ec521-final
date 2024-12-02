@@ -22,6 +22,7 @@ app.config['SECRET_KEY'] = 'yoursecretkey'
 
 # 配置数据库
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['PERMANENT_SESSION_LIFETIME'] = 1800  # 30 分钟
 db.init_app(app)
 
 login_manager = LoginManager()
